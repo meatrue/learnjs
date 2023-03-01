@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <body>
+    <script>
+    /*
+      * Сумма пользовательских чисел
+
+      * Создайте скрипт, который запрашивает ввод двух чисел (используйте prompt) и после показывает их сумму.
+    */
+
+    const QUESTION_TEXT = 'Введите число: ';
+    const ANSWER_TEXT = 'Сумма равна: ';
+    const DEFAULT_VALUE = 0;
+
+    const number1 = +prompt(QUESTION_TEXT, DEFAULT_VALUE);
+    const number2 = +prompt(QUESTION_TEXT, DEFAULT_VALUE);
+
+    const sum = number1 + number2;
+
+    alert(ANSWER_TEXT + sum);
+    </script>
+  </body>
+</html>

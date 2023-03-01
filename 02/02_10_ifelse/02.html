@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <body>
+    <script>
+      // Название JavaScript
+
+      // Используя конструкцию if..else, напишите код, который спрашивает:
+      // „Какое «официальное» название JavaScript?“
+      // Если пользователь вводит «ECMAScript», показать: «Верно!»,
+      // в противном случае – отобразить: «Не знаете? ECMAScript!»
+
+      const QUESTION_TEXT = 'Какое «официальное» название JavaScript?';
+      const RIGHT_ANSWER = 'ECMAScript';
+      const SUCCESS_MESSAGE = 'Верно!';
+      const FAIL_MESSAGE = 'Не знаете? ' + RIGHT_ANSWER;
+
+      const userAnswer = prompt(QUESTION_TEXT);
+
+      if (userAnswer === RIGHT_ANSWER) {
+        alert(SUCCESS_MESSAGE);
+      } else {
+        alert(FAIL_MESSAGE);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+  <body>
+    <script>
+      // Функция pow(x,n)
+
+      // Напишите функцию pow(x,n), которая возводит x в степень n и возвращает результат.
+      /*
+      pow(3, 2) = 3 * 3 = 9
+      pow(3, 3) = 3 * 3 * 3 = 27
+      pow(1, 100) = 1 * 1 * ...* 1 = 1
+      */
+
+      // Создайте страницу, которая запрашивает x и n, а затем выводит результат pow(x,n).
+      // Функция обязана поддерживать только натуральные значения n, т.е. целые от 1 и выше.
+
+      const NUMBER_REQUEST_TEXT = 'Введите число:';
+      const DEFAULT_NUMBER = 0;
+
+      const POWER_REQUEST_TEXT = 'Введите степень (должна быть не отрицательной):';
+      const DEFAULT_POWER = 0;
+
+      function pow(x, n) {
+        if (n < 0) {
+          return;
+        }
+
+        if (n === 0) {
+          return 1;
+        }
+
+        let result = x;
+
+        for (let i = 1; i < n; i++) {
+          result *= x;
+        }
+
+        return result;
+      }
+
+      const number = +prompt(NUMBER_REQUEST_TEXT, DEFAULT_NUMBER);
+
+      let power;
+
+      do {
+        power = +prompt(POWER_REQUEST_TEXT, DEFAULT_POWER);
+      } while (power < 0);
+
+      alert(pow(number, power));
+    </script>
+  </body>
+</html>
