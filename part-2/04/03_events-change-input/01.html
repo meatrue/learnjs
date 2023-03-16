@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      box-sizing: border-box;
+      width: 680px;
+      margin: 0 auto;
+      padding: 40px;
+      border: 1px solid #d6d6d6;
+    }
+
+    p {
+      display: flex;
+    }
+
+    label {
+      width: 200px;
+    }
+
+    input,
+    select {
+      width: 150px;
+    }
+
+    .answer {
+      display: grid;
+      grid-template-columns: repeat(2, min-content);
+      justify-items: start;
+    }
+
+    .answer__now {
+      margin-right: 20px;
+    }
+
+    .answer__title,
+    .answer__data {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .answer__now-column {
+      position: relative;
+      width: 40px;
+      background-color: #ff0000;
+    }
+
+    .answer__result-column {
+      width: 40px;
+      background-color: #00cc00;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Депозитный калькулятор</h1>
+
+    <form id="calculator">
+      <p>
+        <label for="deposit">Первоначальный депозит</label>
+        <input id="deposit" name="deposit" type="number" value="1000">
+      </p>
+
+      <p>
+        <label for="term">Срок вклада?</label>
+        <select id="term" name="term">
+          <option value="3">3 (минимум)</option>
+          <option value="6">6 (полгода)</option>
+          <option value="12" selected>12 (год)</option>
+          <option value="18">18 (1.5 года)</option>
+          <option value="24">24 (2 года)</option>
+          <option value="30">30 (2.5 года)</option>
+          <option value="36">36 (3 года)</option>
+          <option value="60">60 (5 лет)</option>
+        </select>
+      </p>
+
+      <p>
+        <label for="rate">Годовая процентная ставка?</label>
+        <input id="rate" name="rate" type="number" value="5">
+      </p>
+
+      <div class="answer">
+        <div class="answer__now">
+          <strong class="answer__title">Было:</strong>
+          <strong class="answer__data" id="answer-now"></strong>
+          <div class="answer__now-column" id="before-column"></div>
+        </div>
+        <div class="answer__result">
+          <strong class="answer__title">Станет:</strong>
+          <strong class="answer__data" id="answer-result"></strong>
+          <div class="answer__result-column" id="after-column"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    /*
+      *  Депозитный калькулятор
+
+      *  Создайте интерфейс, позволяющий ввести сумму банковского вклада и процент,
+      *  а затем рассчитать, какая это будет сумма через заданный промежуток времени.
+    */
+
+    function getResult({
+      depositValue: deposit,
+      termValue: term,
+      rateValue: rate
+    }) {
+      if (!deposit) return;
+      deposit = Number(deposit);
+
+      if (!term) return;
+      term = Number(term) / 12;
+
+      if (!rate) return;
+      rate = Number(rate) / 100;
+
+      return Math.round(deposit * (1 + rate) ** (term));
+    }
+
+    function onCalculatorChange() {
+      setCalculatorValues();
+    }
+
+    function setCalculatorValues() {
+      let depositValue = deposit.value;
+      let termValue = term.value;
+      let rateValue = rate.value;
+
+      const result = getResult({depositValue, termValue, rateValue});
+
+      answerNowElement.textContent = depositValue;
+      answerResultElement.textContent = result;
+      setResultDiagram(depositValue, result);
+    }
+
+    function setResultDiagram(initialValue, result) {
+      if (!initialValue || !result) return;
+
+      beforeColumn.style.height = '100px';
+      const afterColumnHeight = (result / initialValue) * 100;
+      afterColumn.style.height = `${afterColumnHeight}px`;
+      beforeColumn.style.top = `${afterColumnHeight - 100}px`;
+    }
+
+    const answerNowElement = document.querySelector('#answer-now');
+    const answerResultElement = document.querySelector('#answer-result');
+    const beforeColumn = document.querySelector('#before-column');
+    const afterColumn = document.querySelector('#after-column');
+
+    setCalculatorValues();
+
+    calculator.addEventListener('change', onCalculatorChange);
+  </script>
+</body>
+</html>

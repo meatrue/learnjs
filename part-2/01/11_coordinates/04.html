@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      height: 2000px;
+    }
+
+    .container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 700px;
+      height: 450px;
+      margin: auto;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #d6d6d6;
+    }
+
+    .dedicated {
+      position: relative;
+      margin: 20px 60px 20px 40px;
+      padding: 20px 40px;
+      background-color: #e6e6e6;
+    }
+
+    .note {
+      position: absolute;
+      min-width: 100px;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 1px solid #000000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit sint atque dolorum fuga ad incidunt voluptatum error fugiat animi amet! Odio temporibus nulla id unde quaerat dignissimos enim nisi rem provident molestias sit tempore omnis recusandae esse sequi officia sapiente.</p>
+
+    <div class="dedicated">
+      <p>Teacher: Why are you late?</p>
+      <p>Student: There was a man who lost a hundred dollar bill.</p>
+      <p>Teacher: That's nice. Were you helping him look for it?</p>
+      <p>Student: No. I was standing on it.</p>
+    </div>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit sint atque dolorum fuga ad incidunt voluptatum error fugiat animi amet! Odio temporibus nulla id unde quaerat dignissimos enim nisi rem provident molestias sit tempore omnis recusandae esse sequi officia sapiente.</p>
+  </div>
+
+  <script>
+    /*
+      *  Усовершенствуйте решение предыдущего задания
+      *  Покажите заметку около элемента (абсолютное позиционирование):
+      *  научите функцию positionAt(anchor, position, elem) вставлять elem внутрь anchor.
+
+      *  Новые значения для аргумента position:
+
+        *  top-out, right-out, bottom-out – работают так же, как раньше, они вставляют elem сверху/справа/снизу anchor.
+        *  top-in, right-in, bottom-in – вставляют elem внутрь anchor: приклеивают его к верхнему/правому/нижнему краю.
+
+    */
+
+    const POSITION = {
+      topOut: 'top-out',
+      rightOut: 'right-out',
+      bottomOut: 'bottom-out',
+      topIn: 'top-in',
+      rightIn: 'right-in',
+      bottomIn: 'bottom-in'
+    };
+
+    function showNote(anchor, position, text) {
+      const noteElement = document.createElement('div');
+      noteElement.classList.add('note');
+      noteElement.textContent = text;
+      anchor.append(noteElement);
+      positionAt(anchor, position, noteElement);
+    }
+
+    function positionAt(anchor, position, elem) {
+      switch (position) {
+        case POSITION.topOut:
+          elem.style.top = `${-elem.offsetHeight}px`;
+          elem.style.left = 0;
+          return;
+
+        case POSITION.rightOut:
+          elem.style.top = 0;
+          elem.style.left = `${anchor.offsetWidth}px`;
+          return;
+
+        case POSITION.bottomOut:
+          elem.style.top = `${anchor.offsetHeight}px`;
+          elem.style.left = 0;
+          return;
+
+        case POSITION.topIn:
+          elem.style.top = 0;
+          elem.style.left = 0;
+          return;
+
+        case POSITION.rightIn:
+          elem.style.top = 0;
+          elem.style.left = `${anchor.clientWidth - elem.offsetWidth}px`;
+          return;
+
+        case POSITION.bottomIn:
+          elem.style.top = `${anchor.clientHeight - elem.offsetHeight}px`;
+          elem.style.left = 0;
+          return;
+          
+        default:
+          return;
+      }
+    }
+
+    const dedicatedElement = document.querySelector('.dedicated');
+
+    const potitionVariants = Object.keys(POSITION);
+    potitionVariants.forEach((positionVariant) => {
+      showNote(dedicatedElement, POSITION[positionVariant], `note ${POSITION[positionVariant]}`);
+    });
+  </script>
+</body>
+</html>

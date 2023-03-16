@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow-y: auto;
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      font-size: 16px;
+      border: 1px solid #e6e6e6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+  </div>
+  <script>
+    /*
+      *  Найти размер прокрутки снизу
+
+      *  Свойство elem.scrollTop содержит размер прокрученной области при отсчёте сверху.
+      *  А как подсчитать размер прокрутки снизу (назовём его scrollBottom)?
+      *  Напишите соответствующее выражение для произвольного элемента elem.
+
+      *  P.S. Проверьте: если прокрутки нет вообще или элемент полностью прокручен – оно должно давать 0.
+    */
+
+    function getScrollBottom() {
+      const scrollHeight = element.scrollHeight;
+      const clientHeight = element.clientHeight;
+      const scrollTop = element.scrollTop;
+
+      return scrollHeight - clientHeight - scrollTop;
+    }
+
+    const element = document.querySelector('.container');
+
+    element.addEventListener('scroll', () => alert(getScrollBottom()));
+  </script>
+</body>
+</html>

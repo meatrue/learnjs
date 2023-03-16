@@ -1,0 +1,258 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      width: 600px;
+      margin: 0 auto;
+    }
+
+    th {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    td {
+      position: relative;
+      width: 150px;
+      white-space: nowrap;
+      text-align: center;
+      vertical-align: middle;
+      padding: 10px;
+    }
+
+    .nw {
+      background-color: #999;
+    }
+
+    .n {
+      background-color: #03f;
+      color: #fff;
+    }
+
+    .ne {
+      background-color: #ff6;
+    }
+
+    .w {
+      background-color: #ff0;
+    }
+
+    .c {
+      background-color: #60c;
+      color: #fff;
+    }
+
+    .e {
+      background-color: #09f;
+      color: #fff;
+    }
+
+    .sw {
+      background-color: #963;
+      color: #fff;
+    }
+
+    .s {
+      background-color: #f60;
+      color: #fff;
+    }
+
+    .se {
+      background-color: #0c3;
+      color: #fff;
+    }
+
+    .edit-td .edit-area {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      margin: 0;
+      padding: 0;
+      display: block;
+      resize: none;
+      outline: none;
+      overflow: auto;
+    }
+
+    .edit-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      transform: translateY(100%);
+    }
+
+    .edit-td {
+      position: relative;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <p>Кликните на ячейку таблицы, чтобы редактировать её. Нажмите ОК или ОТМЕНА, когда закончите.</p>
+
+    <table id="bagua-table">
+      <tr>
+        <th colspan="3">Квадрат <em>Bagua</em>: Направление, Элемент, Цвет, Значение</th>
+      </tr>
+      <tr>
+        <td class="nw">
+          <strong>Северо-Запад</strong>
+          <br>Металл
+          <br>Серебро
+          <br>Старейшины
+        </td>
+        <td class="n">
+          <strong>Север</strong>
+          <br>Вода
+          <br>Синий
+          <br>Перемены
+        </td>
+        <td class="ne">
+          <strong>Северо-Восток</strong>
+          <br>Земля
+          <br>Жёлтый
+          <br>Направление
+        </td>
+      </tr>
+      <tr>
+        <td class="w">
+          <strong>Запад</strong>
+          <br>Металл
+          <br>Золото
+          <br>Молодость
+        </td>
+        <td class="c">
+          <strong>Центр</strong>
+          <br>Всё
+          <br>Пурпурный
+          <br>Гармония
+        </td>
+        <td class="e">
+          <strong>Восток</strong>
+          <br>Дерево
+          <br>Синий
+          <br>Будущее
+        </td>
+      </tr>
+      <tr>
+        <td class="sw">
+          <strong>Юго-Запад</strong>
+          <br>Земля
+          <br>Коричневый
+          <br>Спокойствие
+        </td>
+        <td class="s">
+          <strong>Юг</strong>
+          <br>Огонь
+          <br>Оранжевый
+          <br>Слава
+        </td>
+        <td class="se">
+          <strong>Юго-Восток</strong>
+          <br>Дерево
+          <br>Зеленый
+          <br>Роман
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    /*
+      *  Сделайте ячейки таблицы редактируемыми по клику.
+
+      *  По клику – ячейка должна стать «редактируемой» (textarea появляется внутри),
+      *  мы можем изменять HTML. Изменение размера ячейки должно быть отключено.
+      *  Кнопки OK и ОТМЕНА появляются ниже ячейки и, соответственно, завершают/отменяют редактирование.
+      *  Только одну ячейку можно редактировать за один раз.
+      *  Пока <td> в «режиме редактирования», клики по другим ячейкам игнорируются.
+      *  Таблица может иметь множество ячеек. Используйте делегирование событий.
+
+    */
+
+    function onTableClick(e) {
+      const target = e.target.closest('td, [data-edit-button]');
+
+      if (target.nodeName === 'TD') {
+        if (editingTd) {
+          return;
+        }
+        createEditableCell(target);
+
+      } else if (target.dataset.editButton === 'confirm') {
+        finishCellEdit(editingTd.element, true);
+      } else if (target.dataset.editButton === 'cancel') {
+        finishCellEdit(editingTd.element, false);
+      }
+    }
+
+    function createEditableCell(td) {
+      editingTd = {
+        element: td,
+        html: td.innerHTML
+      };
+
+      td.classList.add('edit-td');
+      addTextArea(td);
+      addEditControls(td);
+    }
+
+    function addTextArea(td) {
+      const textArea = document.createElement('textarea');
+      textArea.className = 'edit-area';
+      textArea.value = td.innerHTML;
+      td.innerHTML = '';
+      td.append(textArea);
+      textArea.focus();
+    }
+
+    function addEditControls(td) {
+      const controlsBlock = document.createElement('div');
+      controlsBlock.classList.add('edit-controls');
+
+      const confirmButton = document.createElement('button');
+      confirmButton.dataset.editButton = 'confirm';
+      confirmButton.textContent = 'OK';
+
+      const cancelButton = document.createElement('button');
+      cancelButton.dataset.editButton = 'cancel';
+      cancelButton.textContent = 'CANCEL';
+
+      controlsBlock.append(confirmButton, cancelButton);
+      td.append(controlsBlock);
+    }
+
+    function finishCellEdit(td, isOk) {
+      if (isOk) {
+        td.innerHTML = td.children[0].value;
+      } else {
+        td.innerHTML = editingTd.html;
+      }
+
+      td.classList.remove('edit-td');
+      editingTd = null;
+    }
+
+    const tableElement = document.querySelector('#bagua-table');
+
+    tableElement.addEventListener('click', onTableClick);
+
+    let editingTd;
+  </script>
+
+</body>
+</html>

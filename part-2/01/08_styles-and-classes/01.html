@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .notification {
+      max-width: 300px;
+      padding: 50px 100px;
+      border: 2px solid tomato;
+    }
+
+    .welcome {
+      font-size: 30px;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    /*
+      Создать уведомление
+
+      Напишите функцию showNotification(options),
+      которая создаёт уведомление: <div class="notification">
+      с заданным содержимым. Уведомление должно автоматически исчезнуть через 1,5 секунды.
+
+      Пример объекта options:
+
+      // показывает элемент с текстом "Hello" рядом с правой верхней частью окна.
+      showNotification({
+        top: 10, // 10px от верхней границы окна (по умолчанию 0px)
+        right: 10, // 10px от правого края окна (по умолчанию 0px)
+        html: "Hello!", // HTML-уведомление
+        className: "welcome" // дополнительный класс для div (необязательно)
+      });
+    */
+
+    function showNotification({top = 0, right = 0, html, className = '', time = 3000}) {
+      const element = document.createElement('div');
+      element.className = 'notification';
+      className && element.classList.add(className);
+      element.style.position = 'absolute';
+      element.style.top = `${top}px`;
+      element.style.right = `${right}px`;
+      element.innerHTML = html;
+      document.body.append(element);
+
+      setTimeout(() => {element.remove()}, time);
+    }
+
+    showNotification({
+        top: 100,
+        right: 100,
+        html: "Hello!",
+        className: "welcome"
+      });
+  </script>
+</body>
+</html>

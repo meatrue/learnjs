@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      width: 600px;
+      margin: 0 auto;
+    }
+
+    span {
+      cursor: pointer;
+    }
+
+    span:hover {
+      font-weight: 700;
+    }
+
+    .isHidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul data-list-container>
+      <li>
+        <span data-item-title>Животные</span>
+        <ul>
+          <li>
+            <span data-item-title>Млекопитающие</span>
+            <ul>
+              <li><span data-item-title>Коровы</span></li>
+              <li><span data-item-title>Ослы</span></li>
+              <li><span data-item-title>Собаки</span></li>
+              <li><span data-item-title>Тигры</span></li>
+            </ul>
+          </li>
+          <li>
+            <span data-item-title>Другие</span>
+            <ul>
+              <li><span data-item-title>Змеи</span></li>
+              <li><span data-item-title>Птицы</span></li>
+              <li><span data-item-title>Ящерицы</span></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <span data-item-title>Рыбы</span>
+        <ul>
+          <li>
+            <span data-item-title>Аквариумные</span>
+            <ul>
+              <li><span data-item-title>Гуппи</span></li>
+              <li><span data-item-title>Скалярии</span></li>
+            </ul>
+          </li>
+          <li>
+            <span data-item-title>Морские</span>
+            <ul>
+              <li><span data-item-title>Морская форель</span></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    /*
+      *  Раскрывающееся дерево
+
+      *  Создайте дерево, которое по клику на заголовок скрывает-показывает потомков.
+      *  Требования:
+
+      *  Использовать только один обработчик событий (применить делегирование)
+      *  Клик вне текста заголовка (на пустом месте) ничего делать не должен.
+    */
+
+    function onItemHeaderClick(e) {
+      const target = e.target;
+      const isItemTitle = target.hasAttribute('data-item-title');
+
+      if(!isItemTitle) {
+        return;
+      }
+
+      const childList = target.closest('li').querySelectorAll('ul')[0];
+
+      if (childList) {
+        childList.classList.toggle('isHidden');
+      }
+    }
+
+    const listElement = document.querySelector('[data-list-container]');
+    listElement.addEventListener('click', onItemHeaderClick);
+  </script>
+</body>
+</html>

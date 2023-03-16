@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+  <ol id="elem">
+    <li>Привет</li>
+    <li>Мир</li>
+  </ol>
+
+  <script>
+    /*
+      * Очистите элемент
+
+      * Создайте функцию clear(elem), которая удаляет всё содержимое из elem.
+    */
+
+    function clear(elem) {
+      const elemClone = elem.cloneNode();
+      elem.replaceWith(elemClone);
+    }
+
+    clear(elem); // очищает список
+  </script>
+</body>
+</html>

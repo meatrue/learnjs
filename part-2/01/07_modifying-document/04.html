@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <ul></ul>
+
+  <script>
+    /*
+      *  Создайте список
+
+      *  Напишите интерфейс для создания списка.
+      *  Для каждого пункта:
+          *  Запрашивайте содержимое пункта у пользователя с помощью prompt.
+          *  Создавайте элемент <li> и добавляйте его к <ul>.
+          *  Продолжайте до тех пор, пока пользователь не отменит ввод
+          *  (нажатием клавиши Esc или введя пустую строку).
+
+      *  Все элементы должны создаваться динамически.
+      *  Если пользователь вводит HTML-теги, они должны обрабатываться как текст.
+    */
+
+    const CREATE_ITEM_QUESTION_TITLE = 'Введите текст пункта: ';
+    const DEFAULT_ITEM_VALUE = '';
+
+    function createListItem(text) {
+      const listItem = document.createElement('li');
+      listItem.textContent = text;
+
+      return listItem;
+    }
+
+    function addDynamicItemsToList(listElement) {
+      while (true) {
+        const itemText = prompt(CREATE_ITEM_QUESTION_TITLE, DEFAULT_ITEM_VALUE);
+
+        if (!itemText) {
+          break;
+        }
+
+        const listItem = createListItem(itemText);
+        listElement.append(listItem);
+      }
+    }
+
+    const listElement = document.querySelector('ul');
+
+    addDynamicItemsToList(listElement);
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow-y: auto;
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      font-size: 16px;
+      border: 1px solid #e6e6e6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+    <p>Текст текст текст текст</p>
+  </div>
+
+  <script>
+    /*
+      *  Узнать ширину полосы прокрутки
+
+      *  Напишите код, который возвращает ширину стандартной полосы прокрутки.
+      *  Для Windows она обычно колеблется от 12px до 20px.
+      *  Если браузер не выделяет место под полосу прокрутки
+      *  (так тоже бывает, она может быть прозрачной над текстом),
+      *  тогда значение может быть 0px.
+
+      *  P.S. Ваш код должен работать в любом HTML-документе, независимо от его содержимого.
+    */
+    const element = document.querySelector('.container');
+
+    const offsetWidth = element.offsetWidth;
+    const clientLeft = element.clientLeft;
+    const clientWidth = element.clientWidth;
+
+    const scrollWidth = offsetWidth - 2 * clientLeft - clientWidth;
+    alert(scrollWidth);
+
+  </script>
+</body>
+</html>
+

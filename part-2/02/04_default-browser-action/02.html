@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      box-sizing: border-box;
+      width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #d6d6d6;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      padding: 12px 16px;
+      font-style: italic;
+      background-color: #ffffff;
+      border: 1px solid #d6d6d6;
+      border-radius: 6px;
+      box-shadow: 2px 2px 4px 0 #aaaaaa;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>Как насчёт того, чтобы прочитать <a href="https://wikipedia.org">Википедию</a> или посетить <a href="https://w3.org"><i>W3.org</i></a> и узнать о современных стандартах?</p>
+  </div>
+
+  <script>
+    /*
+      *  Поймайте переход по ссылке
+
+      *  Сделайте так, чтобы при клике на ссылки внутри элемента id="contents"
+      *  пользователю выводился вопрос о том, действительно ли он хочет покинуть страницу,
+      *  и если он не хочет, то прерывать переход по ссылке.
+    */
+
+    function onLinkClick(e) {
+      const target = e.target;
+
+      const link = target.closest('a');
+
+      if (!link) {
+        return;
+      }
+
+      const isContinue = confirm(`Хотите перейти по ссылке ${link.getAttribute('href')}?`);
+
+      if (!isContinue) {
+        e.preventDefault();
+      }
+    }
+
+    document.addEventListener('click', onLinkClick);
+  </script>
+</body>
+</html>

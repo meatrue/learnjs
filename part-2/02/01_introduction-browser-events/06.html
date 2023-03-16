@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      width: 600px;
+      margin: 0 auto;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 0;
+      list-style-type: none;
+    }
+
+    .list__item {
+      position: relative;
+      padding: 20px 30px;
+      background-color: #e6e6e6;
+      border-top: 2px solid #d6d6d6;
+      transition: all 0.5s ease;
+    }
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      color: #dd6347;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .close-button::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 20px;
+      content: "[X]";
+    }
+
+    .isHidden {
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul class="list">
+      <li class="list__item">
+        <h3>Лошадь</h3>
+
+        <p>Домашняя лошадь — животное семейства непарнокопытных, одомашненный и единственный сохранившийся подвид дикой лошади, вымершей в дикой природе, за исключением небольшой популяции лошади Пржевальского.</p>
+      </li>
+
+      <li class="list__item">
+        <h3>Осёл</h3>
+
+        <p>Домашний осёл (лат. Equus asinus asinus), или ишак, — одомашненный подвид дикого осла (Equus asinus), сыгравший важную историческую роль в развитии хозяйства и культуры человека и по-прежнему широко в хозяйстве многих развивающихся стран.</p>
+      </li>
+
+      <li class="list__item">
+        <h3>Кошка</h3>
+
+        <p>Кошка, или домашняя кошка (лат. Felis silvestris catus), — домашнее животное, одно из наиболее популярных(наряду с собакой) «животных-компаньонов». Являясь одиночным охотником на грызунов и других мелких животных, кошка — социальное животное, использующее для общения широкий диапазон звуковых сигналов.</p>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    /*
+      *  Есть список сообщений.
+
+      *  При помощи JavaScript для каждого сообщения добавьте в верхний правый угол кнопку закрытия.
+    */
+
+    function addCloseButton(element) {
+      const buttonElement = document.createElement('button');
+      buttonElement.setAttribute('type', 'button');
+      buttonElement.classList.add('close-button');
+      buttonElement.addEventListener('click', onCloseButtonClick);
+
+      element.append(buttonElement);
+    }
+
+    function onCloseButtonClick(e) {
+      const parentElement = this.closest('.list__item');
+      parentElement.style.opacity = 0;
+      parentElement.style.transform = 'translateX(-50%)';
+      setTimeout(() => parentElement.remove(), 500);
+    }
+
+    const listItems = document.querySelectorAll('.list__item');
+
+    for (let listItem of listItems) {
+      addCloseButton(listItem);
+    }
+  </script>
+</body>
+</html>

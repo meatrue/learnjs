@@ -1,0 +1,50 @@
+<html>
+<head></head>
+<body>
+  <ul>
+    <li>
+      Элемент 1.
+      <ul>
+        <li>Элемент 1.1.</li>
+        <li>Элемент 1.2.</li>
+        <li>Элемент 1.3.</li>
+      </ul>
+    </li>
+    <li>Элемент 2.</li>
+    <li>
+      Элемент 3.
+      <ul>
+        <li>Элемент 3.1.</li>
+        <li>Элемент 3.2.</li>
+        <li>
+          Элемент 3.3.
+          <ul>
+            <li>Элемент 3.3.1.</li>
+            <li>Элемент 3.3.2.</li>
+            <li>Элемент 3.3.3.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Элемент 4.</li>
+  </ul>
+
+  <script>
+    /*
+      *  Считаем потомков
+
+      *  У нас есть дерево, структурированное как вложенные списки ul/li.
+      *  Напишите код, который выведет каждый элемент списка <li>:
+        *  Какой в нём текст (без поддерева) ?
+        *  Какое число потомков – всех вложенных <li> (включая глубоко вложенные) ?
+    */
+
+    const listItemsElements = document.querySelectorAll('li');
+
+    for (let listItem of listItemsElements) {
+      console.log(listItem.firstChild.data);
+      console.log('Children: ', listItem.querySelectorAll('li').length);
+    }
+  </script>
+</body>
+</html>

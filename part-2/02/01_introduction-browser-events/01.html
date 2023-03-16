@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .isHidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <button id="hide-text" type="button">Скрыть текст</button>
+  <div id="text">Текст</div>
+
+  <script>
+    /*
+      *  Скрыть элемент по нажатию кнопки
+
+      *  Добавьте JavaScript к кнопке button, чтобы при нажатии элемент <div id="text"> исчезал.
+
+    */
+
+    function onHideButtonClick() {
+      textBlock.classList.add('isHidden');
+    }
+
+    const hideButton = document.querySelector('#hide-text');
+    const textBlock = document.querySelector('#text');
+
+    hideButton.addEventListener('click', onHideButtonClick);
+  </script>
+</body>
+</html>

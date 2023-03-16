@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <ul id="container">
+    <li>
+      Животные
+      <ul>
+        <li>
+          Млекопитающие
+          <ul>
+            <li>Коровы</li>
+            <li>Ослы</li>
+            <li>Собаки</li>
+            <li>Тигры</li>
+          </ul>
+        </li>
+        <li>
+          Другие
+          <ul>
+            <li>Змеи</li>
+            <li>Птицы</li>
+            <li>Ящерицы</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      Рыбы
+      <ul>
+        <li>
+          Аквариумные
+          <ul>
+            <li>Гуппи</li>
+            <li>Скалярии</li>
+          </ul>
+        </li>
+        <li>
+          Морские
+          <ul>
+            <li>Морская форель</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <script>
+    /*
+      *  Выведите список потомков в дереве
+
+      *  Есть дерево, организованное в виде вложенных списков ul/li.
+      *  Напишите код, который добавит каждому элементу списка <li>
+      *  количество вложенных в него элементов.
+      *  Узлы нижнего уровня, без детей – пропускайте.
+    */
+
+    function addCountLabelsToList(listElement) {
+      const listItems = listElement.querySelectorAll('li');
+
+      if (!listItems) {
+        return;
+      }
+
+      for (let listItem of listItems) {
+        const subItemsCount = getSubItemsCount(listItem);
+
+        if (subItemsCount) {
+          const countLabel = createCountLabel(subItemsCount);
+          addCountLabelToItem(listItem, countLabel);
+        }
+      }
+    }
+
+    function getSubItemsCount(element) {
+      return element.querySelectorAll('li').length;
+    }
+
+    function createCountLabel(count) {
+      const countLabel = document.createElement('span');
+      countLabel.textContent = `[${count}]`;
+
+      return countLabel;
+    }
+
+    function addCountLabelToItem(item, labelElement) {
+      const itemText = item.firstChild;
+      itemText.after(labelElement);
+    }
+
+    const listElement = document.querySelector('#container');
+
+    addCountLabelsToList(listElement);
+  </script>
+</body>
+</html>

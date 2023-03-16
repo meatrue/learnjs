@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      height: 2000px;
+    }
+
+    .field {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 350px;
+      height: 250px;
+      margin: auto;
+      font-size: 16px;
+      border: 10px solid #00aa00;
+      background-color: #55ff55;
+      cursor: pointer;
+    }
+
+    .ball {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      transition: all 0.8s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="field">
+    <img class="ball" src="./ball.svg" alt="Мяч.">
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  <script>
+    /*
+      *  Передвиньте мяч по полю
+
+      *  Требования:
+        *  Центр мяча должен совпадать с местом нажатия мыши (если это возможно без пересечения краёв поля);
+        *  CSS-анимация желательна, но не обязательна;
+        *  Мяч ни в коем случае не должен пересекать границы поля;
+        *  При прокрутке страницы ничего не должно ломаться;
+
+    */
+
+    function onFieldClick(e) {
+      const clickCoords = {x: e.clientX, y: e.clientY};
+
+      const ballCoords = getInnerElementCoords(this, ball, clickCoords);
+      setElementPosition(this, ball, ballCoords);
+    }
+
+    function getInnerElementCoords(container, element, clickCoords) {
+      const containerCoords = container.getBoundingClientRect();
+
+      return  {
+        x: clickCoords.x - containerCoords.x - container.clientLeft - element.offsetWidth / 2,
+        y: clickCoords.y - containerCoords.y - container.clientTop - element.offsetHeight / 2,
+      }
+    }
+
+    function setElementPosition(container, element, elementCoords) {
+      const elementMinCoords = {
+        x: 0,
+        y: 0
+      };
+
+      const elementMaxCoords = {
+        x: container.clientWidth - element.offsetWidth,
+        y: container.clientHeight - element.offsetHeight
+      }
+
+      if (elementCoords.x < elementMinCoords.x) {
+        elementCoords.x = elementMinCoords.x;
+      }
+
+      if (elementCoords.x > elementMaxCoords.x) {
+        elementCoords.x = elementMaxCoords.x;
+      }
+
+      if (elementCoords.y < elementMinCoords.y) {
+        elementCoords.y = elementMinCoords.y;
+      }
+
+      if (elementCoords.y > elementMaxCoords.y) {
+        elementCoords.y = elementMaxCoords.y;
+      }
+
+      element.style.left = `${elementCoords.x}px`;
+      element.style.top = `${elementCoords.y}px`;
+    }
+
+    const field = document.querySelector('.field');
+    const ball = document.querySelector('.ball');
+
+    field.addEventListener('click', onFieldClick);
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <ul id="container"></ul>
+
+  <script>
+    /*
+      Создайте дерево из объекта
+
+      Напишите функцию createTree,
+      которая создаёт вложенный список ul/li из объекта.
+
+      Например:
+
+        let data = {
+          "Рыбы": {
+            "форель": {},
+            "лосось": {}
+          },
+
+          "Деревья": {
+            "Огромные": {
+              "секвойя": {},
+              "дуб": {}
+            },
+            "Цветковые": {
+              "яблоня": {},
+              "магнолия": {}
+            }
+          }
+        };
+
+      Синтаксис:
+        let container = document.getElementById('container');
+        createTree(container, data); // создаёт дерево в контейнере
+
+      P.S. Желательно, чтобы в дереве не было лишних элементов, в частности -– пустых <ul></ul> на нижнем уровне.
+    */
+
+    const data = {
+      "Рыбы": {
+        "форель": {},
+        "лосось": {}
+      },
+
+      "Деревья": {
+        "Огромные": {
+          "секвойя": {},
+          "дуб": {}
+        },
+
+        "Цветковые": {
+          "яблоня": {},
+          "магнолия": {}
+        }
+      }
+    };
+
+    function createTree(container, data) {
+      const dataKeys = Object.keys(data);
+
+      for (let key of dataKeys) {
+        const listItem = createListItem(key);
+        const value = data[key];
+
+        if (Object.keys(value).length) {
+          const subListElement = document.createElement('ul');
+          createTree(subListElement, value);
+          listItem.append(subListElement);
+        }
+
+        container.append(listItem);
+      }
+    }
+
+    function createListItem(text) {
+      const listItem = document.createElement('li');
+      listItem.textContent = text;
+
+      return listItem;
+    }
+
+    const container = document.getElementById('container');
+    createTree(container, data); // создаёт дерево в контейнере
+
+  </script>
+</body>
+</html>

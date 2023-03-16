@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      border: 1px solid #000000;
+      border-collapse: collapse;
+    }
+
+    td,
+    th {
+      padding: 4px;
+      border: 1px solid #000000;
+    }
+
+    th {
+      background-color: #e6e6e6;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    /*
+      *  Создайте календарь в виде таблицы
+
+      *  Напишите функцию createCalendar(elem, year, month).
+
+      *  Вызов функции должен создать календарь
+      *  для заданного месяца month в году year и вставить его в elem.
+
+      *  Календарь должен быть таблицей, где неделя – это <tr>, а день – это <td>.
+      *  У таблицы должен быть заголовок с названиями дней недели,
+      *  каждый день – <th>, первым днём недели должен быть понедельник.
+    */
+
+    const WEEK_DAYS = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
+    const NUMBER_OF_SUNDAY = 7;
+    const WEEKS_COUNT = 5;
+
+    function createCalendar(container, year, month) {
+      const calendarElement = document.createElement('table');
+      const calendarHeader = createCalendarHeader();
+      const firstDayOfMonth = new Date(year, month - 1, 1).getDay() || NUMBER_OF_SUNDAY;
+      const lastDayOfMonth = new Date(year, month, 0).getDay() || NUMBER_OF_SUNDAY;
+      const calendarBody = createCalendarBody(firstDayOfMonth, lastDayOfMonth);
+
+      calendarElement.append(calendarHeader);
+      calendarElement.append(calendarBody);
+      container.append(calendarElement);
+    }
+
+    function createCalendarHeader() {
+      const headerElement = document.createElement('tr');
+      const headerCellsFragment = new DocumentFragment();
+
+      for (let weekDay of WEEK_DAYS) {
+        const headerCell = createCalendarCell(weekDay, 'th');
+        headerCellsFragment.append(headerCell);
+      }
+
+      headerElement.append(headerCellsFragment);
+
+      return headerElement;
+    }
+
+    function createCalendarBody(startDay, endDay) {
+      const calendarRowsFragment = new DocumentFragment();
+      let dayCounter = 0;
+
+      for (let weekNumber = 1; weekNumber <= WEEKS_COUNT; weekNumber++) {
+        const calendarRow = document.createElement('tr');
+
+        for (let dayOfWeek = 1; dayOfWeek <= NUMBER_OF_SUNDAY; dayOfWeek++) {
+          let cellText = '';
+
+          if (!(weekNumber === 1 && dayOfWeek < startDay)
+              && !(weekNumber === WEEKS_COUNT && dayOfWeek > endDay)) {
+            cellText = addLeadingZero(++dayCounter);
+          }
+
+          const calendarCell = createCalendarCell(cellText);
+          calendarRow.append(calendarCell);
+        }
+
+        calendarRowsFragment.append(calendarRow);
+      }
+
+      return calendarRowsFragment;
+    }
+
+    function createCalendarCell(text, cellTag = 'td') {
+      const cellElement = document.createElement(cellTag);
+      cellElement.textContent = text;
+
+      return cellElement;
+    }
+
+    function addLeadingZero(value) {
+      return value < 10 ? `0${value}` : String(value);
+    }
+
+    const container = document.querySelector('#container');
+    createCalendar(container, 2012, 9);
+  </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 680px;
+      margin: 0 auto;
+      border: 1px solid #d6d6d6;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .gallery__main {
+      width: 550px;
+      height: 400px;
+      padding: 20px 10px;
+    }
+
+    .gallery__main img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .gallery__preview-list {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0;
+      margin-right: -10px;
+      padding-left: 0;
+      list-style-type: none;
+    }
+
+    .gallery__preview-item {
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #d6d6d6;
+      cursor: pointer;
+    }
+
+    .gallery__preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery__preview-item:hover {
+      border-color: #daa520;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="gallery">
+      <div class="gallery__main">
+        <img src="" alt="">
+      </div>
+      <ul class="gallery__preview-list">
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    /*
+      *  Галерея изображений
+      *  Создайте галерею изображений, в которой основное изображение
+      *  изменяется при клике на уменьшенный вариант.
+    */
+
+    const GALLERY_CLASS_NAME = 'gallery';
+    const GALLERY_MAIN_CLASS_NAME = 'gallery__main';
+    const GALLERY_LIST_CLASS_NAME = 'gallery__preview-list';
+    const GALLERY_ITEM_CLASS_NAME = 'gallery__preview-item';
+    const GALLERY_IMAGES_PATH = './gallery';
+
+    const images = [
+      {
+        id: 1,
+        large: 'img1-lg.jpg',
+        small: 'img1-thumb.jpg',
+        alt: 'picture-1'
+      },
+      {
+        id: 2,
+        large: 'img2-lg.jpg',
+        small: 'img2-thumb.jpg',
+        alt: 'picture-2'
+      },
+      {
+        id: 3,
+        large: 'img3-lg.jpg',
+        small: 'img3-thumb.jpg',
+        alt: 'picture-3'
+      },
+      {
+        id: 4,
+        large: 'img4-lg.jpg',
+        small: 'img4-thumb.jpg',
+        alt: 'picture-4'
+      },
+      {
+        id: 5,
+        large: 'img5-lg.jpg',
+        small: 'img5-thumb.jpg',
+        alt: 'picture-5'
+      }
+    ];
+
+    function createGallery() {
+      const galleryListElement = document.querySelector(`.${GALLERY_LIST_CLASS_NAME}`);
+      const galleryItems = [];
+
+      images.forEach((image) => {
+        const galleryItem = createGalleryItem(image);
+        galleryItems.push(galleryItem);
+      });
+
+      setMainImage(images[0]);
+      galleryListElement.append(...galleryItems);
+    }
+
+    function createGalleryItem({small: imageName, alt, id}) {
+      const galleryItem = document.createElement('li');
+      galleryItem.classList.add(GALLERY_ITEM_CLASS_NAME);
+      galleryItem.dataset.previewId = id;
+
+      const imageElement = document.createElement('img');
+      imageElement.setAttribute('src', `${GALLERY_IMAGES_PATH}/${imageName}`);
+      imageElement.setAttribute('alt', `${alt}`);
+
+      galleryItem.append(imageElement);
+
+      return galleryItem;
+    }
+
+    function onPreviewClick(e) {
+      const target = e.target;
+      const previewItem = target.closest('[data-preview-id]');
+
+      if (!previewItem) {
+        return;
+      }
+
+      const imageItem = findImageById(previewItem.dataset.previewId);
+      setMainImage(imageItem)
+    }
+
+    function findImageById(id) {
+      if (!id) {
+        return;
+      }
+
+      return images.find((imageItem) => imageItem.id === Number(id));
+    }
+
+    function setMainImage({large: imageName,  alt}) {
+      const mainImage = document.querySelector(`.${GALLERY_MAIN_CLASS_NAME} img`);
+
+      mainImage.setAttribute('src', `${GALLERY_IMAGES_PATH}/${imageName}`);
+      mainImage.setAttribute('alt', `${alt}`);
+    }
+
+    const galleryContainer = document.querySelector(`.${GALLERY_CLASS_NAME}`);
+
+    createGallery(images);
+
+    galleryContainer.addEventListener('click', onPreviewClick);
+  </script>
+</body>
+</html>

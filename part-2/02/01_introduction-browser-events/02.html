@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .isHidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <button id="hide-self" type="button">Нажми меня</button>
+
+  <script>
+    /*
+      *  Создайте кнопку, которая будет скрывать себя по нажатию.
+    */
+
+    function onHideSelfButtonClick(e) {
+      this.classList.add('isHidden');
+    }
+
+    const hideSelfButton = document.querySelector('#hide-self');
+
+    hideSelfButton.addEventListener('click', onHideSelfButtonClick);
+  </script>
+</body>
+</html>

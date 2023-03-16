@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .watches__container {
+      display: flex;
+      width: 200px;
+      justify-content: center;
+      padding: 20px;
+      font-size: 30px;
+      border: 1px solid #e6e6e6;
+    }
+
+    .watches__buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .watches__button {
+      flex-grow: 1;
+      margin: 0 10px;
+      padding: 10px 30px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    span[data-hours] {
+      padding: 0 4px;
+      color: #ee0000;
+    }
+
+    span[data-minutes] {
+      padding: 0 4px;
+      color: #00cc00;
+    }
+
+    span[data-seconds] {
+      padding: 0 4px;
+      color: #0000ee;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="watches">
+    <div class="watches__container">
+      <span data-hours>hh</span>
+      :<span data-minutes>mm</span>
+      :<span data-seconds>ss</span>
+    </div>
+    <div class="watches__buttons">
+      <button class="watches__button" type="button" data-watches-start>Start</button>
+      <button class="watches__button" type="button" data-watches-stop>Stop</button>
+    </div>
+  </div>
+
+  <script>
+    /*
+      *  Цветные часы с использованием setInterval
+
+      *  Создайте цветные часы как в примере.
+
+      *  Для стилизации используйте HTML/CSS, JavaScript
+      *  должен только обновлять время в элементах.
+    */
+    const TIME_UPDATE_MILLISECONDS = 1000;
+
+    function watchesStart() {
+      timerId = setInterval(updateTime, TIME_UPDATE_MILLISECONDS);
+      updateTime();
+    }
+
+    function watchesStop() {
+      clearInterval(timerId);
+      timerId = null;
+    }
+
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      hoursElement.textContent = addLeadingZero(hours);
+      minutesElement.textContent = addLeadingZero(minutes);
+      secondsElement.textContent = addLeadingZero(seconds);
+    }
+
+    function addLeadingZero(value) {
+      return value < 10 ? `0${value}` : String(value);
+    }
+
+    const hoursElement = document.querySelector('[data-hours]');
+    const minutesElement = document.querySelector('[data-minutes]');
+    const secondsElement = document.querySelector('[data-seconds]');
+
+    const buttonStart = document.querySelector('[data-watches-start]');
+    const buttonStop = document.querySelector('[data-watches-stop]');
+
+    let timerId;
+
+    buttonStart.addEventListener('click', watchesStart);
+    buttonStop.addEventListener('click', watchesStop);
+  </script>
+</body>
+</html>

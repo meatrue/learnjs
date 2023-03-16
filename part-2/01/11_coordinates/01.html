@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .field {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 350px;
+      height: 250px;
+      margin: auto;
+      font-size: 16px;
+      border: 10px solid #00aa00;
+      background-color: #55ff55;
+    }
+
+    span {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="field">
+    <p>верхний левый, внешний угол: <span data-first-coords></span></p>
+    <p>нижний правый, внешний угол: <span data-second-coords></span></p>
+    <p>верхний левый, внутренний угол: <span data-third-coords></span></p>
+    <p>нижний правый, внутренний угол: <span data-fourth-coords></span></p>
+  </div>
+
+  <script>
+    /*
+      *  Найдите координаты точек относительно окна браузера
+
+      *  Ваш код должен при помощи DOM получить четыре пары координат:
+          *  верхний левый, внешний угол (это просто).
+          *  нижний правый, внешний угол (тоже просто).
+          *  верхний левый, внутренний угол (чуть сложнее).
+          *  нижний правый, внутренний угол (есть несколько способов, выберите один).
+    */
+
+    function getTopLeftOuterCoords(element) {
+      const x = Math.round(element.getBoundingClientRect().x);
+      const y = Math.round(element.getBoundingClientRect().y);
+      return {x, y};
+    }
+
+    function getBottomRightOuterCoords(element) {
+      const x = Math.round(element.getBoundingClientRect().right);
+      const y = Math.round(element.getBoundingClientRect().bottom);
+      return {x, y};
+    }
+
+    function getTopLeftInnerCoords(element) {
+      const outerX = element.getBoundingClientRect().x;
+      const outerY = element.getBoundingClientRect().y;
+
+      const x = Math.round(outerX + element.clientLeft);
+      const y = Math.round(outerY + element.clientTop);
+
+      return {x, y};
+    }
+
+    function getBottomRightInnerCoords(element) {
+      const outerX = element.getBoundingClientRect().x;
+      const outerY = element.getBoundingClientRect().y;
+
+      const x = Math.round(outerX + element.clientLeft + element.clientWidth);
+      const y = Math.round(outerY + element.clientTop + element.clientHeight);
+
+      return {x, y};
+    }
+
+    const fieldElement = document.querySelector('.field');
+
+    const firstCoordsField = document.querySelector('[data-first-coords]');
+    const secondCoordsField = document.querySelector('[data-second-coords]');
+    const thirdCoordsField = document.querySelector('[data-third-coords]');
+    const fourthCoordsField = document.querySelector('[data-fourth-coords]');
+
+    const topLeftOuterCoords = getTopLeftOuterCoords(fieldElement);
+    firstCoordsField.textContent = `x = ${topLeftOuterCoords.x}, y = ${topLeftOuterCoords.y}`;
+
+    const bottomRightOuterCoords = getBottomRightOuterCoords(fieldElement);
+    secondCoordsField.textContent = `x = ${bottomRightOuterCoords.x}, y = ${bottomRightOuterCoords.y}`;
+
+    const topLeftInnerCoords = getTopLeftInnerCoords(fieldElement);
+    thirdCoordsField.textContent = `x = ${topLeftInnerCoords.x}, y = ${topLeftInnerCoords.y}`;
+
+    const bottomRightInnerCoords = getBottomRightInnerCoords(fieldElement);
+    fourthCoordsField.textContent = `x = ${bottomRightInnerCoords.x}, y = ${bottomRightInnerCoords.y}`;
+  </script>
+</body>
+</html>

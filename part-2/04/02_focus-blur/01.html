@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 680px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    .text-area {
+      width: 300px;
+      height: 200px;
+      border: 1px solid #d6d6d6;
+      cursor: text;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-area" id="editable-element"></div>
+  </div>
+
+  <script>
+    /*
+      *  Редактируемый div
+
+      *  Создайте <div>, который превращается в <textarea>, если на него кликнуть.
+      *  <textarea> позволяет редактировать HTML в элементе <div>.
+      *  Когда пользователь нажимает Enter или переводит фокус,
+      * <textarea> превращается обратно в <div>, и его содержимое становится HTML-кодом в <div>.
+    */
+
+    function onEditableClick() {
+      const textArea = createEditableElement('textarea');
+      textArea.addEventListener('blur', onTextAreaBlur);
+      textArea.value = this.innerHTML;
+      this.replaceWith(textArea);
+      textArea.focus();
+    }
+
+    function onTextAreaBlur() {
+      const newEditableElement = createEditableElement('div');
+      newEditableElement.addEventListener('click', onEditableClick);
+      newEditableElement.innerHTML = this.value;
+      this.replaceWith(newEditableElement);
+    }
+
+    function createEditableElement(tagName) {
+      const editableElement = document.createElement(tagName);
+      editableElement.classList.add('text-area');
+      return editableElement;
+    }
+
+    const editableElement = document.querySelector('#editable-element');
+
+    editableElement.addEventListener('click', onEditableClick);
+  </script>
+</body>
+</html>

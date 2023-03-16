@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 680px;
+      margin: 0 auto;
+      padding: 40px;
+      border: 1px solid #d6d6d6;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <select id="genres">
+      <option value="rock">Рок</option>
+      <option value="blues" selected>Блюз</option>
+    </select>
+  </div>
+
+  <script>
+    /*
+      *  Добавьте пункт к выпадающему списку
+      *  Используя JavaScript:
+        *  Выведите значение и текст выбранного пункта.
+        *  Добавьте пункт: <option value="classic">Классика</option>.
+        *  Сделайте его выбранным.
+    */
+
+    const options = genres.options;
+    const selectedOption = options[genres.selectedIndex];
+
+    alert(selectedOption.value);
+    alert(selectedOption.text);
+
+    const classicOption = new Option('Классика', 'classic');
+    genres.append(classicOption);
+    classicOption.selected = true;
+  </script>
+</body>
+</html>

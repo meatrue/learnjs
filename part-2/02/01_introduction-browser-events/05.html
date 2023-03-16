@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      width: 350px;
+      margin: 0 auto;
+    }
+
+    .drop-down-menu {
+      margin: 0 auto;
+      font-size: 20px;
+      list-style-type: none;
+    }
+
+    .drop-down-menu__item {
+      position: relative;
+    }
+
+    .drop-down-menu__link {
+      color: #087296;
+    }
+
+    .drop-down-menu__link--main {
+      padding-left: 20px;
+      cursor: pointer;
+    }
+
+    .drop-down-menu__link--main::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 12px;
+      height: 10px;
+      content: "";
+      background-image: url("./triangle.svg");
+      background-repeat: no-repeat;
+      transform: translateY(-50%) rotate(-90deg);
+      transition: all 0.3s ease;
+    }
+
+    .drop-down-menu__link.isActive::before {
+      transform: translateY(-50%) rotate(0);
+    }
+
+    .drop-down-menu--inner {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      visibility: hidden;
+      opacity: 0;
+      padding: 10px 20px;
+      background-color: #e6e6e6;
+      transform: translateY(100%);
+      transition: all 0.7s ease;
+    }
+
+    .drop-down-menu__link.isActive ~ .drop-down-menu--inner {
+      visibility: visible;
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul class="drop-down-menu">
+      <li class="drop-down-menu__item">
+        <a class="drop-down-menu__link drop-down-menu__link--main">Сладости (нажми меня)!</a>
+        <ul class="drop-down-menu drop-down-menu--inner">
+          <li class="drop-down-menu__item">
+            <a class="drop-down-menu__link" href="#">Пирожное</a>
+          </li>
+          <li class="drop-down-menu__item">
+            <a class="drop-down-menu__link" href="#">Пончик</a>
+          </li>
+          <li class="drop-down-menu__item">
+            <a class="drop-down-menu__link" href="#">Мёд</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    /*
+      *  Создать раскрывающееся меню
+
+      *  Создать меню, которое по нажатию открывается либо закрывается:
+    */
+
+    function onMainMenuLinkClick() {
+      this.classList.toggle('isActive');
+    }
+
+    const menuLinkMain = document.querySelector('.drop-down-menu__link--main');
+    menuLinkMain.addEventListener('click', onMainMenuLinkClick);
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th><th>Surname</th><th>Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td><td>Smith</td><td>10</td>
+      </tr>
+      <tr>
+        <td>Pete</td><td>Brown</td><td>15</td>
+      </tr>
+      <tr>
+        <td>Ann</td><td>Lee</td><td>5</td>
+      </tr>
+      <tr>
+        <td>...</td><td>...</td><td>...</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    /*
+      *  Сортировка таблицы
+
+      *  Напишите код для сортировки по столбцу "name".
+    */
+
+    const tableRows = document.querySelectorAll('tbody tr');
+    const tableRowsItems = [...tableRows];
+    tableRowsItems.sort((row1, row2) => {
+      const name1 = row1.firstElementChild.textContent;
+      const name2 = row2.firstElementChild.textContent;
+
+      return name1 > name2 ? 1 : -1;
+    });
+
+    const table = document.querySelector('table');
+    table.tBodies[0].append(...tableRowsItems);
+  </script>
+</body>
+</html>

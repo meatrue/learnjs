@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .field {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      box-sizing: border-box;
+      width: 350px;
+      height: 250px;
+      margin: auto;
+      font-size: 16px;
+      border: 10px solid #00aa00;
+      background-color: #55ff55;
+    }
+
+    .ball {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #ffffff;
+      border: 2px solid #000000;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="field">
+    <div class="ball"></div>
+  </div>
+
+  <script>
+    /*
+      *  Поместите мяч в центр поля
+      *  Код должен работать с любым размером мяча (10, 20, 30 пикселей)
+      *  и любым размером поля без привязки к исходным значениям.
+    */
+    const fieldElement = document.querySelector('.field');
+    const ballElement = document.querySelector('.ball');
+
+    const fieldInnerWidth = fieldElement.clientWidth;
+    const fieldInnerHeight = fieldElement.clientHeight;
+
+    const ballWidth = ballElement.offsetWidth;
+    const ballHeight = ballElement.offsetHeight;
+
+    ballElement.style.top = `${(fieldInnerHeight - ballHeight) / 2}px`;
+    ballElement.style.left = `${(fieldInnerWidth - ballWidth) / 2}px`;
+  </script>
+</body>
+</html>

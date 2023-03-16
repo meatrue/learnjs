@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      height: 2000px;
+    }
+
+    .container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 700px;
+      height: 450px;
+      margin: auto;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #d6d6d6;
+    }
+
+    .dedicated {
+      position: relative;
+      margin: 20px 60px 20px 40px;
+      padding: 20px 40px;
+      background-color: #e6e6e6;
+    }
+
+    .note {
+      position: absolute;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 1px solid #000000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit sint atque dolorum fuga ad incidunt voluptatum error fugiat animi amet! Odio temporibus nulla id unde quaerat dignissimos enim nisi rem provident molestias sit tempore omnis recusandae esse sequi officia sapiente.</p>
+
+    <div class="dedicated">
+      <p>Teacher: Why are you late?</p>
+      <p>Student: There was a man who lost a hundred dollar bill.</p>
+      <p>Teacher: That's nice. Were you helping him look for it?</p>
+      <p>Student: No. I was standing on it.</p>
+    </div>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit sint atque dolorum fuga ad incidunt voluptatum error fugiat animi amet! Odio temporibus nulla id unde quaerat dignissimos enim nisi rem provident molestias sit tempore omnis recusandae esse sequi officia sapiente.</p>
+  </div>
+
+  <script>
+    /*
+      *  Покажите заметку около элемента (абсолютное позиционирование)
+    */
+
+    const POSITION = {
+      top: 'top',
+      right: 'right',
+      bottom: 'bottom'
+    };
+
+    const notes = [
+      {
+        position: POSITION.top,
+        text: 'note above'
+      },
+      {
+        position: POSITION.right,
+        text: 'note at the right'
+      },
+      {
+        position: POSITION.bottom,
+        text: 'note below'
+      }
+    ];
+
+    function showNote(anchor, position, text) {
+      const noteElement = document.createElement('div');
+      noteElement.classList.add('note');
+      noteElement.textContent = text;
+      document.body.append(noteElement);
+      positionAt(anchor, position, noteElement);
+    }
+
+    function positionAt(anchor, position, elem) {
+      const coords = getCoords(anchor);
+
+      switch (position) {
+        case POSITION.top:
+          elem.style.top = `${coords.top - elem.offsetHeight}px`;
+          elem.style.left = `${coords.left}px`;
+          return;
+
+        case POSITION.right:
+          elem.style.top = `${coords.top}px`;
+          elem.style.left = `${coords.right}px`;
+          return;
+
+        case POSITION.bottom:
+          elem.style.top = `${coords.bottom}px`;
+          elem.style.left = `${coords.left}px`;
+          return;
+          
+        default:
+          return;
+      }
+    }
+
+    function getCoords(elem) {
+      let box = elem.getBoundingClientRect();
+
+      return {
+        top: box.top + window.pageYOffset,
+        right: box.right + window.pageXOffset,
+        bottom: box.bottom + window.pageYOffset,
+        left: box.left + window.pageXOffset
+      };
+    }
+
+    const dedicatedElement = document.querySelector('.dedicated');
+
+    notes.forEach((note) => {
+      showNote(dedicatedElement, note.position, note.text)
+    });
+  </script>
+</body>
+</html>

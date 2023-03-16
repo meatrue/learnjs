@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <div data-widget-name="menu">Choose the genre</div>
+
+  <script>
+    /*
+      *  Получите атрибут
+
+      *  Напишите код для выбора элемента с атрибутом
+      *  data-widget-name из документа и прочитайте его значение.
+    */
+
+    const searchedElement = document.querySelector('[data-widget-name]');
+    const attributeValue = searchedElement.dataset.widgetName;
+    alert(attributeValue);
+  </script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      height: 2000px;
+    }
+
+    .scroll-lock {
+      overflow: hidden;
+    }
+
+    .container {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
+      box-sizing: border-box;
+      width: 680px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .isActive {
+      display: block;
+    }
+
+    .modal-open {
+      cursor: pointer;
+    }
+
+    .modal__content {
+      position: absolute;
+      top: 50%;
+      right: 50%;
+      min-width: 300px;
+      min-height: 150px;
+      margin: auto;
+      padding: 20px;
+      background-color: #ffffff;
+      transform: translate(50%, -50%);
+    }
+
+    .modal__title {
+      margin-top: 0;
+    }
+
+    .modal__buttons {
+      margin-top: 20px;
+    }
+
+    .modal__ok,
+    .modal__cancel {
+      padding: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Кликните на кнопку ниже</h1>
+    <button class="modal-open" type="button" data-modal-open>Открыть форму</button>
+  </div>
+
+  <div class="modal" data-modal>
+    <div class="modal__content">
+      <h2 class="modal__title" data-modal-title></h2>
+      <form name="modal-form">
+        <input name="text" type="text">
+        <div class="modal__buttons">
+          <button class="modal__ok" name="submit" type="submit">Ok</button>
+          <button class="modal__cancel" name="cancel" type="button">Отмена</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    /*
+      *  Модальное диалоговое окно с формой
+
+      * Создайте функцию showPrompt(html, callback),
+      которая выводит форму с сообщением (html), полем ввода и кнопками OK/ОТМЕНА.
+
+      *  Пользователь должен ввести что-то в текстовое поле
+      *  и нажать Enter или кнопку «OK», после чего должна вызываться
+      *  функция callback(value) со значением поля.
+      *  Если пользователь нажимает Esc или кнопку «ОТМЕНА», тогда вызывается callback(null).
+      *  В обоих случаях нужно завершить процесс ввода и закрыть диалоговое окно с формой.
+
+      *  Требования:
+
+        *  Форма должна быть в центре окна.
+        *  Форма является модальным окном, это значит,
+        *  что никакое взаимодействие с остальной частью страницы невозможно,
+        *  пока пользователь не закроет его.
+        *  При показе формы, фокус должен находиться сразу внутри <input>.
+        *  Клавиши Tab/Shift+Tab должны переключать фокус между полями формы,
+        *  не позволяя ему переходить к другим элементам страницы.
+    */
+
+    function showPrompt(html, callback) {
+      const modalElement = document.querySelector('[data-modal]');
+      const modalTitleElement = modalElement.querySelector('[data-modal-title]');
+      const modalForm = document.forms['modal-form'];
+      const modalInput = modalForm.text;
+
+      const onFormSubmit = (e) => {
+        e.preventDefault();
+        const inputValue = modalInput.value;
+
+        if (!inputValue) {
+          return;
+        }
+
+        callback(inputValue);
+        modalClose(modalElement);
+      }
+
+      const onFormCancel = () => {
+        callback(null);
+        modalClose(modalElement);
+      };
+
+      const onModalEscDown = (e) => {
+        if (modalElement.classList.contains('isActive') && e.key === 'Escape') {
+          modalClose(modalElement);
+        }
+      }
+
+      modalForm.onsubmit = onFormSubmit;
+      modalForm.cancel.onclick = onFormCancel;
+      document.onkeydown = onModalEscDown;
+
+      console.log(modalForm.elements);
+      console.log(modalForm.elements[0]);
+      const firstFormElement = modalForm.elements[0];
+      const lastFormElement = modalForm.elements[modalForm.elements.length - 1];
+
+      firstFormElement.onkeydown = (e) => {
+        if (e.key === 'Tab' && e.shiftKey) {
+          lastFormElement.focus();
+          return false;
+        }
+      };
+
+      lastFormElement.onkeydown = (e) => {
+        if (e.key === 'Tab' && !e.shiftKey) {
+          firstFormElement.focus();
+          return false;
+        }
+      };
+
+      modalTitleElement.innerHTML = html;
+      modalOpen(modalElement);
+      modalInput.value = '';
+      modalInput.focus();
+    }
+
+    function modalOpen(modalElement) {
+      modalElement.classList.add('isActive');
+      document.body.classList.add('scroll-lock');
+    }
+
+    function modalClose(modalElement) {
+      modalElement.classList.remove('isActive');
+      document.body.classList.remove('scroll-lock');
+    }
+
+    function onModalOpenClick() {
+      showPrompt('Введите что-нибудь<br>...умное :)', (value) => alert(`Вы ввели: ${value}`));
+    }
+
+    const modalOpenButton = document.querySelector('[data-modal-open]');
+    modalOpenButton.addEventListener('click', onModalOpenClick);
+
+  </script>
+</body>
+</html>
