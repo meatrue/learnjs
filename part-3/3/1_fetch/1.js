@@ -45,4 +45,3 @@ async function getData(request, onGetResult) {
     onGetResult(null);
   }
 }
-
